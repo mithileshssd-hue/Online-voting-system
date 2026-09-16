@@ -1,0 +1,233 @@
+/* ==========================================================================
+   Online Voting System - Modern Web Styling
+   Consistent Slate/Blue Theme matching Academic 1st-Year CSE Project
+   ========================================================================== */
+
+:root {
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #eff6ff;
+  --primary-border: #bfdbfe;
+  
+  --dark-bg: #0f172a;
+  --header-bg: #1e293b;
+  --body-bg: #f8fafc;
+  --card-bg: #ffffff;
+  
+  --text-main: #111827;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --border-focus: #3b82f6;
+
+  --success-color: #16a34a;
+  --success-light: #f0fdf4;
+  --warning-color: #d97706;
+  --warning-light: #fffbeb;
+  --danger-color: #dc2626;
+  --danger-light: #fef2f2;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Inter', Roboto, sans-serif;
+  background-color: var(--body-bg);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex-shrink: 0;
+  background-color: #0f172a;
+  color: #94a3b8;
+}
+
+/* Navbar Customization */
+.navbar-custom {
+  background-color: var(--header-bg);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.025em;
+  color: #ffffff !important;
+}
+
+.nav-link {
+  color: #cbd5e1 !important;
+  font-weight: 500;
+  transition: color 0.15s ease-in-out;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: #ffffff !important;
+}
+
+/* Common Card Styling */
+.custom-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card-hover:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #ffffff;
+  border-radius: 1rem;
+  padding: 3.5rem 2rem;
+  margin-bottom: 2rem;
+}
+
+/* How It Works Steps */
+.step-number {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0 auto 1rem auto;
+}
+
+/* Form Styles */
+.form-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.15);
+}
+
+/* Simulated OTP Educational Banner */
+.simulated-otp-banner {
+  background-color: #eff6ff;
+  border: 1px dashed #3b82f6;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.otp-box {
+  font-family: monospace;
+  font-size: 2rem;
+  letter-spacing: 0.4rem;
+  text-align: center;
+  font-weight: 700;
+  background-color: #f1f5f9;
+  border: 2px solid #cbd5e1;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+/* Candidate Card Styling */
+.candidate-card {
+  position: relative;
+  border: 2px solid var(--border-color);
+  border-radius: 0.75rem;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.candidate-card:hover {
+  border-color: var(--primary-color);
+  background-color: #f8fafc;
+}
+
+.candidate-card.selected {
+  border-color: var(--primary-color);
+  background-color: #eff6ff;
+  box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+.candidate-accent {
+  width: 8px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* Party Accent Colors */
+.accent-AIADMK { background-color: #15803d; }
+.accent-DMK    { background-color: #dc2626; }
+.accent-NTK    { background-color: #7c3aed; }
+.accent-TVK    { background-color: #d97706; }
+.accent-NOTA   { background-color: #475569; }
+.accent-DEFAULT{ background-color: #2563eb; }
+
+/* Status Badges */
+.badge-voted {
+  background-color: var(--success-light);
+  color: var(--success-color);
+  border: 1px solid #bbf7d0;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+}
+
+.badge-not-voted {
+  background-color: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+}
+
+/* Results Progress Bars */
+.progress {
+  height: 1.25rem;
+  border-radius: 0.5rem;
+  background-color: #e2e8f0;
+}
+
+.winner-banner {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #f59e0b;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  color: #92400e;
+}
+
+.tie-banner {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  border: 1px solid #6366f1;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  color: #3730a3;
+}
+
+/* Alert Container */
+#alertContainer {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 1060;
+  min-width: 320px;
+  max-width: 420px;
+}
+
+/* Responsive Table */
+.table-responsive {
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color);
+}

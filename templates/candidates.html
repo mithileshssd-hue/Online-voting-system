@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Ballot - Select Candidate - Online Voting System{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="max-width: 680px;">
+
+  <!-- Ballot Header -->
+  <div class="custom-card p-4 mb-4 text-center">
+    <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fw-semibold mb-2">Official Ballot</span>
+    <h3 class="fw-bold mb-1">Select Your Candidate</h3>
+    <p class="text-muted small mb-0">
+      Authenticated Voter ID: <strong class="font-monospace text-primary">{{ voter_id }}</strong>
+    </p>
+    <div class="text-muted small mt-2">
+      Click on a candidate card below to select your choice, then proceed to review and confirm.
+    </div>
+  </div>
+
+  <!-- Candidate Ballot List -->
+  <div class="candidate-list mb-4">
+    {% for candidate in candidates %}
+      {% set accent_class = 'accent-' + candidate if candidate in ['AIADMK', 'DMK', 'NTK', 'TVK', 'NOTA'] else 'accent-DEFAULT' %}
+      <div class="candidate-card p-3 mb-3" data-candidate="{{ candidate }}">
+        <div class="candidate-accent {{ accent_class }}"></div>
+        <div class="d-flex align-items-center justify-content-between ps-3 pe-2">
+          <div class="d-flex align-items-center gap-3">
+            <input 
+              type="radio" 
+              name="candidate_choice" 
+              value="{{ candidate }}" 
+              class="form-check-input fs-5 mt-0"
+            >
+            <div>
+              <h5 class="fw-bold mb-0 text-dark">{{ candidate }}</h5>
+              {% if candidate == 'NOTA' %}
+                <small class="text-muted">None of the Above (Neutral vote)</small>
+              {% else %}
+                <small class="text-muted">Official Election Candidate / Party</small>
+              {% endif %}
+            </div>
+          </div>
+          <span class="badge bg-light text-secondary border px-3 py-2">Select</span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Action Card -->
+  <div class="custom-card p-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <a href="{{ url_for('voter_dashboard') }}" class="btn btn-outline-secondary btn-sm">
+      ← Back to Dashboard
+    </a>
+    <button id="reviewVoteBtn" type="button" class="btn btn-primary btn-lg px-4 fw-semibold" disabled>
+      Review &amp; Confirm Vote →
+    </button>
+  </div>
+
+</div>
+
+<!-- Vote Confirmation Modal -->
+<div class="modal fade" id="voteConfirmModal" tabindex="-1" aria-labelledby="voteConfirmModalLabel" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-light border-bottom">
+        <h5 class="modal-title fw-bold" id="voteConfirmModalLabel">🗳️ Review &amp; Confirm Your Vote</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-4">
+        <p class="text-muted small mb-3">
+          Please verify your selection carefully before submitting your ballot.
+        </p>
+
+        <div class="card p-3 bg-light border mb-3">
+          <div class="d-flex justify-content-between py-1 small">
+            <span class="text-muted">Voter ID:</span>
+            <span class="font-monospace fw-bold">{{ voter_id }}</span>
+          </div>
+          <div class="d-flex justify-content-between py-1 small">
+            <span class="text-muted">Selected Choice:</span>
+            <span id="modalSelectedCandidate" class="fw-bold text-primary fs-6">-</span>
+          </div>
+        </div>
+
+        <div class="alert alert-warning border-warning border-opacity-50 small mb-0" role="alert">
+          <strong>⚠️ Irreversible Action:</strong>
+          Once you confirm, your vote will be securely recorded in the database. You cannot change or re-cast your vote.
+        </div>
+      </div>
+
+      <div class="modal-footer bg-light border-top d-flex justify-content-between">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button id="confirmFinalVoteBtn" type="button" class="btn btn-success fw-semibold px-4">
+          Confirm &amp; Submit Vote ✓
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

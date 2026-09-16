@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}How It Works - Online Voting System{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 900px;">
+
+  <div class="text-center mb-4">
+    <h2 class="fw-bold">How the System Works</h2>
+    <p class="text-muted">A transparent look at the architecture, security guarantees, and database mechanics.</p>
+  </div>
+
+  <!-- Architecture Overview Card -->
+  <div class="custom-card p-4 mb-4">
+    <h5 class="fw-bold text-primary mb-3">📐 System Architecture</h5>
+    <p class="text-muted small">
+      The Online Voting System follows a modular client-server web architecture connecting a modern web frontend to an existing Python backend and local SQLite database:
+    </p>
+    <div class="bg-light p-3 rounded-3 text-center font-monospace small mb-3 border">
+      Browser Client (HTML5 / CSS3 / JavaScript)<br>
+      ↓ HTTP / JSON API via JavaScript <code>fetch()</code><br>
+      Flask Web Application Layer (<code>app.py</code>)<br>
+      ↓ Direct Python Function Calls<br>
+      Existing Python Logic (<code>database.py</code>, <code>security.py</code>, <code>otp.py</code>)<br>
+      ↓ Parameterized SQL &amp; Atomic Transactions<br>
+      SQLite Database (<code>data/voting.db</code>)
+    </div>
+  </div>
+
+  <!-- Key Modules Card -->
+  <div class="custom-card p-4 mb-4">
+    <h5 class="fw-bold text-primary mb-3">📦 Key Components &amp; Responsibilities</h5>
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle small mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Module</th>
+            <th>Technology</th>
+            <th>Responsibility</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="fw-bold">Frontend</td>
+            <td>HTML5, CSS3, JS, Bootstrap 5</td>
+            <td>Responsive presentation, user input handling, and async API calls.</td>
+          </tr>
+          <tr>
+            <td class="fw-bold">API Layer</td>
+            <td>Flask (<code>app.py</code>)</td>
+            <td>Routes requests, manages sessions, and delegates to core Python logic.</td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Database</td>
+            <td>SQLite3 (<code>database.py</code>)</td>
+            <td>Manages tables, transactions, voter records, and results calculation.</td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Security</td>
+            <td><code>security.py</code></td>
+            <td>Regex validation for Voter IDs and SHA-256 password hashing.</td>
+          </tr>
+          <tr>
+            <td class="fw-bold">OTP System</td>
+            <td><code>otp.py</code></td>
+            <td>Simulated OTP generation with 120-second expiration and 3-attempt limit.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Viva Q&A / FAQs Card -->
+  <div class="custom-card p-4 mb-4">
+    <h5 class="fw-bold text-primary mb-3">🎓 1st-Year CSE Viva Q&amp;A Highlights</h5>
+    <div class="accordion" id="vivaAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Q: How does the system prevent a voter from voting twice?
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#vivaAccordion">
+          <div class="accordion-body small text-muted">
+            Double voting is prevented through two complementary levels:
+            <ol class="mt-2 mb-0">
+              <li><strong>Application Level:</strong> The submit button is immediately disabled on click, and the backend verifies that <code>has_voted == 0</code> before accepting the ballot.</li>
+              <li><strong>Database Level:</strong> In <code>database.py</code>, an atomic SQLite transaction writes to the <code>votes</code> table (which has a <code>UNIQUE</code> constraint on <code>voter_id</code>) and updates <code>users.has_voted = 1</code>. If any constraint is violated, the entire transaction is rolled back.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            Q: Why is SHA-256 used for administrator passwords?
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#vivaAccordion">
+          <div class="accordion-body small text-muted">
+            Passwords are never stored in plain text. When an administrator creates an account or logs in, the plain password is converted into a 64-character hexadecimal SHA-256 cryptographic hash. The database only stores this hash. Even if someone inspects the SQLite database file, they cannot reverse-engineer the original password.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            Q: Why is the OTP considered simulated?
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#vivaAccordion">
+          <div class="accordion-body small text-muted">
+            In commercial software, OTPs are dispatched through SMS gateways like Twilio or email APIs. For this academic demonstration, the backend generates a random 4-digit code with full security constraints (120-second expiration and 3 attempts maximum), but displays the code in an educational simulation banner so testers and examiners can evaluate the workflow without requiring real phone numbers or external SMS subscriptions.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="{{ url_for('login_page') }}" class="btn btn-primary px-4 fw-semibold me-2">Proceed to Voter Login</a>
+    <a href="{{ url_for('home') }}" class="btn btn-outline-secondary px-4">Back to Home</a>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Online Voting System{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+      <span class="badge bg-dark px-3 py-2 fw-semibold mb-2">Administrator Session</span>
+      <h2 class="fw-bold mb-1">Election Control Dashboard</h2>
+      <p class="text-muted small mb-0">Live real-time monitoring and database administration</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('admin_results') }}" class="btn btn-primary fw-semibold">
+        📊 View Results
+      </a>
+      <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-secondary">
+        Logout
+      </a>
+    </div>
+  </div>
+
+  <!-- Metric Statistics Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-3">
+      <div class="custom-card p-3 border-start border-4 border-primary">
+        <div class="text-muted small fw-semibold text-uppercase">Registered Voters</div>
+        <div class="fs-2 fw-bold text-dark my-1">{{ stats.total_voters }}</div>
+        <div class="text-muted small">Total in <code>users</code> table</div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3">
+      <div class="custom-card p-3 border-start border-4 border-success">
+        <div class="text-muted small fw-semibold text-uppercase">Votes Cast</div>
+        <div class="fs-2 fw-bold text-success my-1">{{ stats.votes_cast }}</div>
+        <div class="text-muted small">Completed ballots</div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3">
+      <div class="custom-card p-3 border-start border-4 border-warning">
+        <div class="text-muted small fw-semibold text-uppercase">Pending Voters</div>
+        <div class="fs-2 fw-bold text-warning my-1">{{ stats.not_voted }}</div>
+        <div class="text-muted small">Eligible to vote</div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3">
+      <div class="custom-card p-3 border-start border-4 border-info">
+        <div class="text-muted small fw-semibold text-uppercase">Candidates</div>
+        <div class="fs-2 fw-bold text-dark my-1">{{ stats.total_candidates }}</div>
+        <div class="text-muted small">On active ballot</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Turnout Progress Card -->
+  <div class="custom-card p-4 mb-4">
+    {% set turnout_pct = (stats.votes_cast / stats.total_voters * 100)|round(1) if stats.total_voters > 0 else 0 %}
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h6 class="fw-bold mb-0">Electoral Turnout Progress</h6>
+      <span class="fw-bold text-primary">{{ turnout_pct }}% Turnout</span>
+    </div>
+    <div class="progress" style="height: 18px;">
+      <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ turnout_pct }}%;" aria-valuenow="{{ turnout_pct }}" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <div class="d-flex justify-content-between small text-muted mt-2">
+      <span>{{ stats.votes_cast }} votes recorded</span>
+      <span>Target: {{ stats.total_voters }} total voters</span>
+    </div>
+  </div>
+
+  <!-- Quick Action Administration Modules -->
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="custom-card card-hover p-4 h-100 d-flex flex-column">
+        <div class="fs-2 text-primary mb-2">👥</div>
+        <h5 class="fw-bold">Manage Voters</h5>
+        <p class="text-muted small flex-grow-1">
+          Register new eligible voters with standard format validation, search registered IDs, and review individual voting status.
+        </p>
+        <a href="{{ url_for('admin_voters') }}" class="btn btn-outline-primary btn-sm mt-3 fw-semibold">
+          Open Voter Management →
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="custom-card card-hover p-4 h-100 d-flex flex-column">
+        <div class="fs-2 text-primary mb-2">🗳️</div>
+        <h5 class="fw-bold">Manage Candidates</h5>
+        <p class="text-muted small flex-grow-1">
+          Add new election candidates or political parties, monitor individual tally counts, and remove candidates with zero votes.
+        </p>
+        <a href="{{ url_for('admin_candidates') }}" class="btn btn-outline-primary btn-sm mt-3 fw-semibold">
+          Open Candidate Management →
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="custom-card card-hover p-4 h-100 d-flex flex-column">
+        <div class="fs-2 text-primary mb-2">📈</div>
+        <h5 class="fw-bold">Live Results &amp; Analytics</h5>
+        <p class="text-muted small flex-grow-1">
+          Inspect real-time vote distribution, view dynamic leader or tie detection banners, and access election restart utilities.
+        </p>
+        <a href="{{ url_for('admin_results') }}" class="btn btn-outline-primary btn-sm mt-3 fw-semibold">
+          Open Results &amp; Tally →
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

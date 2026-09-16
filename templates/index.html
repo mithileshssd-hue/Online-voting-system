@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}Online Voting System - Home{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <!-- Hero Section -->
+  <div class="hero-section text-center shadow">
+    <div style="font-size: 3.5rem;" class="mb-3">🗳️</div>
+    <h1 class="display-5 fw-bold mb-3">ONLINE VOTING SYSTEM</h1>
+    <p class="lead mx-auto mb-4 text-white-50" style="max-width: 680px;">
+      A simple and secure digital voting system for conducting elections efficiently.
+    </p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      {% if session.get('voter_id') %}
+        <a href="{{ url_for('voter_dashboard') }}" class="btn btn-primary btn-lg px-4 fw-semibold shadow-sm">
+          Go to Voter Dashboard →
+        </a>
+      {% else %}
+        <a href="{{ url_for('login_page') }}" class="btn btn-primary btn-lg px-4 fw-semibold shadow-sm">
+          👤 Voter Login
+        </a>
+      {% endif %}
+
+      {% if session.get('admin') %}
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-light btn-lg px-4 fw-semibold">
+          Admin Dashboard →
+        </a>
+      {% else %}
+        <a href="{{ url_for('admin_login_page') }}" class="btn btn-outline-light btn-lg px-4 fw-semibold">
+          🔐 Admin Portal
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Quick Action Cards -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-6">
+      <div class="custom-card card-hover p-4 h-100">
+        <div class="d-flex align-items-center mb-3">
+          <div class="p-3 bg-primary bg-opacity-10 text-primary rounded-3 me-3 fs-3">
+            👤
+          </div>
+          <div>
+            <h4 class="mb-1 fw-bold">Voter Portal</h4>
+            <p class="text-muted mb-0 small">For registered student and faculty voters</p>
+          </div>
+        </div>
+        <p class="text-muted small">
+          Authenticate using your registered Voter ID (e.g. <code>AA001</code>) and complete a quick simulated two-factor One-Time Password (OTP) verification to access your ballot.
+        </p>
+        <hr class="text-secondary opacity-25">
+        <a href="{{ url_for('login_page') }}" class="btn btn-outline-primary btn-sm fw-semibold">
+          Access Voter Ballot →
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="custom-card card-hover p-4 h-100">
+        <div class="d-flex align-items-center mb-3">
+          <div class="p-3 bg-dark bg-opacity-10 text-dark rounded-3 me-3 fs-3">
+            🔐
+          </div>
+          <div>
+            <h4 class="mb-1 fw-bold">Administrator Portal</h4>
+            <p class="text-muted mb-0 small">For election coordinators and administrators</p>
+          </div>
+        </div>
+        <p class="text-muted small">
+          Manage eligible voters, register or remove election candidates, monitor live real-time turnout statistics, and view certified election results.
+        </p>
+        <hr class="text-secondary opacity-25">
+        <a href="{{ url_for('admin_login_page') }}" class="btn btn-outline-secondary btn-sm fw-semibold">
+          Administrator Login →
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- How It Works Section -->
+  <div class="custom-card p-4 p-md-5 mb-4">
+    <div class="text-center mb-5">
+      <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fw-semibold mb-2">Workflow</span>
+      <h2 class="fw-bold">How It Works</h2>
+      <p class="text-muted">A clear, verifiable 5-step voting process designed for fairness and transparency.</p>
+    </div>
+
+    <div class="row g-4 text-center">
+      <div class="col-6 col-md">
+        <div class="step-number">1</div>
+        <h6 class="fw-bold mb-1">Login</h6>
+        <p class="text-muted small mb-0">Enter registered Voter ID in standard format.</p>
+      </div>
+
+      <div class="col-6 col-md">
+        <div class="step-number">2</div>
+        <h6 class="fw-bold mb-1">Verify Identity</h6>
+        <p class="text-muted small mb-0">Complete simulated 4-digit OTP verification.</p>
+      </div>
+
+      <div class="col-6 col-md">
+        <div class="step-number">3</div>
+        <h6 class="fw-bold mb-1">View Candidates</h6>
+        <p class="text-muted small mb-0">Review active candidates on the dynamic ballot.</p>
+      </div>
+
+      <div class="col-6 col-md">
+        <div class="step-number">4</div>
+        <h6 class="fw-bold mb-1">Cast Vote</h6>
+        <p class="text-muted small mb-0">Select your candidate and review confirmation.</p>
+      </div>
+
+      <div class="col-12 col-md">
+        <div class="step-number bg-success">5</div>
+        <h6 class="fw-bold mb-1">Recorded</h6>
+        <p class="text-muted small mb-0">Vote is saved atomically in SQLite database.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- System Safeguards Section -->
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="custom-card p-3 h-100">
+        <div class="fw-bold text-dark mb-2">🛡️ Strict One-Vote Enforcement</div>
+        <p class="text-muted small mb-0">
+          Database transactions guarantee that each registered voter can submit exactly one ballot. Duplicate attempts are permanently blocked.
+        </p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="custom-card p-3 h-100">
+        <div class="fw-bold text-dark mb-2">🔑 Cryptographic Hashing</div>
+        <p class="text-muted small mb-0">
+          Administrator passwords are encrypted using one-way SHA-256 cryptographic hashing. Plain text credentials are never stored.
+        </p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="custom-card p-3 h-100">
+        <div class="fw-bold text-dark mb-2">📊 Real-Time Analytics</div>
+        <p class="text-muted small mb-0">
+          Votes are tallied mathematically via SQL queries, providing transparent turnout metrics and automatic leader/tie calculations.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

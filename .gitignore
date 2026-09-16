@@ -1,0 +1,30 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Environment variables & local secrets
+.env
+.env.local
+
+# Git directory (if nested)
+.git/
+
+# SQLite temporary database files
+data/*.db-journal
+test_voting.db
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+Thumbs.db
+.DS_Store

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}OTP Verification - Online Voting System{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+
+      <div class="custom-card p-4 p-md-5 shadow-sm">
+        <div class="text-center mb-3">
+          <div class="bg-primary bg-opacity-10 text-primary d-inline-flex p-3 rounded-circle mb-3 fs-3">
+            🔐
+          </div>
+          <h3 class="fw-bold mb-1">OTP Verification</h3>
+          <p class="text-muted small">
+            Voter ID: <strong class="text-primary font-monospace">{{ voter_id }}</strong>
+          </p>
+        </div>
+
+        <!-- Educational Simulated OTP Notification Banner -->
+        <div class="simulated-otp-banner mb-4">
+          <div class="d-flex align-items-center mb-2">
+            <span class="badge bg-primary me-2">Educational Simulation</span>
+            <span class="text-muted small">Simulated SMS Dispatch</span>
+          </div>
+          <p class="small text-muted mb-2">
+            In a live production system, the OTP is dispatched via an SMS gateway. For academic evaluation, your code is:
+          </p>
+          <div class="otp-box text-primary my-2">
+            {{ simulated_otp }}
+          </div>
+          <div class="small text-muted text-center" style="font-size: 0.78rem;">
+            ⏱️ Valid for 120 seconds · Maximum 3 attempts
+          </div>
+        </div>
+
+        <!-- OTP Input Form -->
+        <form id="otpForm" data-remaining="{{ remaining_seconds or 120 }}" novalidate>
+          <div class="mb-3">
+            <label for="otpCodeInput" class="form-label text-center d-block">Enter 4-Digit Verification Code</label>
+            <input 
+              type="text" 
+              class="form-control form-control-lg text-center font-monospace fw-bold" 
+              id="otpCodeInput" 
+              name="otp_code" 
+              placeholder="••••" 
+              maxlength="4" 
+              pattern="[0-9]{4}" 
+              autocomplete="one-time-code"
+              required 
+              autofocus
+              style="font-size: 1.5rem; letter-spacing: 0.5rem;"
+            >
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center small mb-4 px-1">
+            <span>Time: <span id="otpTimerDisplay" class="text-primary fw-bold">120s remaining</span></span>
+            <span id="otpAttemptsDisplay" class="text-muted">3 attempts remaining</span>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg w-100 fw-semibold mb-3">
+            Verify &amp; Enter Dashboard →
+          </button>
+        </form>
+
+        <div class="text-center mt-3">
+          <a href="{{ url_for('login_page') }}" class="text-decoration-none small text-muted">
+            ← Cancel &amp; Return to Login
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

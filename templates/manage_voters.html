@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Voters - Admin Portal{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Breadcrumb / Header -->
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+    <div>
+      <a href="{{ url_for('admin_dashboard') }}" class="text-decoration-none small text-muted">← Back to Dashboard</a>
+      <h3 class="fw-bold mb-0 mt-1">👥 Voter Management</h3>
+    </div>
+    <span class="badge bg-secondary px-3 py-2">Total Voters: {{ voters|length }}</span>
+  </div>
+
+  <div class="row g-4">
+    <!-- Form to Register New Voter -->
+    <div class="col-lg-4">
+      <div class="custom-card p-4">
+        <h5 class="fw-bold mb-3">Register New Voter</h5>
+        <p class="text-muted small mb-3">
+          Add an eligible student or faculty member into the <code>users</code> table.
+        </p>
+
+        <form id="addVoterForm" novalidate>
+          <div class="mb-3">
+            <label for="newVoterId" class="form-label">New Voter ID</label>
+            <input 
+              type="text" 
+              class="form-control text-uppercase font-monospace" 
+              id="newVoterId" 
+              placeholder="e.g. BB005" 
+              maxlength="5" 
+              required
+            >
+            <div class="form-text small text-muted mt-2">
+              Must be 2 letters + 3 digits (e.g. <code>AA001</code> to <code>ZZ999</code>).
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 fw-semibold">
+            + Register Voter
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Voter List Table with Search Filter -->
+    <div class="col-lg-8">
+      <div class="custom-card p-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <h5 class="fw-bold mb-0">Registered Voter Directory</h5>
+          
+          <div style="max-width: 250px;">
+            <input 
+              type="text" 
+              class="form-control form-control-sm" 
+              id="voterSearchInput" 
+              placeholder="🔍 Search Voter ID..."
+            >
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0" id="voterTable">
+            <thead class="table-light">
+              <tr>
+                <th scope="col" style="width: 35%;">Voter ID</th>
+                <th scope="col" style="width: 35%;">Voting Status</th>
+                <th scope="col" class="text-end" style="width: 30%;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if voters %}
+                {% for voter_id, voted_status in voters %}
+                  <tr>
+                    <td class="font-monospace fw-bold">{{ voter_id }}</td>
+                    <td>
+                      {% if voted_status == 'Yes' %}
+                        <span class="badge badge-voted">✓ Voted</span>
+                      {% else %}
+                        <span class="badge badge-not-voted">Pending</span>
+                      {% endif %}
+                    </td>
+                    <td class="text-end">
+                      <button 
+                        type="button" 
+                        class="btn btn-outline-danger btn-sm btn-remove-voter" 
+                        data-voter-id="{{ voter_id }}"
+                        title="Remove voter"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  <td colspan="3" class="text-center text-muted py-4">
+                    No voters registered yet. Use the form to register voters.
+                  </td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

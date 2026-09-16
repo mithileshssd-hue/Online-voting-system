@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Login - Online Voting System{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+
+      <div class="custom-card p-4 p-md-5 shadow-sm">
+        <div class="text-center mb-4">
+          <div class="bg-dark bg-opacity-10 text-dark d-inline-flex p-3 rounded-circle mb-3 fs-3">
+            🔐
+          </div>
+          <h3 class="fw-bold mb-1">Administrator Portal</h3>
+          <p class="text-muted small">Enter administrative credentials to manage election and view results.</p>
+        </div>
+
+        <form id="adminLoginForm" novalidate>
+          <div class="mb-3">
+            <label for="adminUsername" class="form-label">Admin Username</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="adminUsername" 
+              name="username" 
+              placeholder="e.g. admin" 
+              required
+              autofocus
+            >
+          </div>
+
+          <div class="mb-4">
+            <label for="adminPassword" class="form-label">Admin Password</label>
+            <input 
+              type="password" 
+              class="form-control" 
+              id="adminPassword" 
+              name="password" 
+              placeholder="Enter admin password" 
+              required
+            >
+          </div>
+
+          <button type="submit" class="btn btn-dark btn-lg w-100 fw-semibold mb-3">
+            Login to Admin Dashboard →
+          </button>
+        </form>
+
+        <hr class="text-secondary opacity-25 my-4">
+
+        <div class="d-flex justify-content-between align-items-center small text-muted">
+          <span>Are you a registered voter?</span>
+          <a href="{{ url_for('login_page') }}" class="text-decoration-none fw-semibold">Voter Login →</a>
+        </div>
+      </div>
+
+      <!-- Helper tip -->
+      <div class="card mt-3 bg-light border-0 small text-muted text-center p-2">
+        <span>💡 <em>Default admin credentials: <code>admin</code> / <code>admin123</code></em></span>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

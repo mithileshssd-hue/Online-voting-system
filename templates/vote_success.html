@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Vote Recorded Successfully - Online Voting System{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="max-width: 600px;">
+
+  <div class="custom-card p-4 p-md-5 shadow-sm text-center border-success border-opacity-25">
+    
+    <div class="p-3 bg-success bg-opacity-10 text-success d-inline-flex rounded-circle mb-3 fs-1">
+      ✓
+    </div>
+
+    <h2 class="fw-bold text-success mb-2">Vote Submitted Successfully!</h2>
+    <p class="text-muted mb-4">
+      Your ballot has been safely recorded in the election database.
+    </p>
+
+    <div class="card p-3 bg-light border text-start mb-4">
+      <div class="d-flex justify-content-between py-2 border-bottom small">
+        <span class="text-muted">Voter ID:</span>
+        <span class="font-monospace fw-bold">{{ voter_id }}</span>
+      </div>
+      <div class="d-flex justify-content-between py-2 border-bottom small">
+        <span class="text-muted">Transaction Status:</span>
+        <span class="text-success fw-bold">✓ Committed (ACID Guaranteed)</span>
+      </div>
+      <div class="d-flex justify-content-between py-2 small">
+        <span class="text-muted">Voting Franchise:</span>
+        <span class="text-secondary">Marked as Voted (Duplicate Locked)</span>
+      </div>
+    </div>
+
+    <div class="alert alert-info border-info border-opacity-50 small mb-4">
+      ℹ️ For election secrecy, the candidate you chose is stored separately from your identifying data. Thank you for participating!
+    </div>
+
+    <div class="d-flex justify-content-center gap-3">
+      <a href="{{ url_for('voter_dashboard') }}" class="btn btn-outline-primary px-4">
+        Voter Status
+      </a>
+      <a href="{{ url_for('logout') }}" class="btn btn-primary px-4 fw-semibold">
+        Safe Logout →
+      </a>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

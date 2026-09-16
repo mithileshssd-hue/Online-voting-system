@@ -1,0 +1,14 @@
+# Online Voting System Dependencies
+# --------------------------------
+# Web Application Framework & Production WSGI Server:
+Flask>=3.0.0
+gunicorn>=21.2.0
+
+# Standard Libraries used by existing logic:
+# - sqlite3 (Local relational database storage)
+# - hashlib (SHA-256 cryptographic password hashing)
+# - unittest (Automated test suite)
+# - time, random, re, os (Utilities)
+# - tkinter & ttk (Optional: for running original desktop GUI via python main.py)
+
+

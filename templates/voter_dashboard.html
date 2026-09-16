@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Voter Dashboard - Online Voting System{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="max-width: 800px;">
+
+  <!-- Welcome Header Card -->
+  <div class="custom-card p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fw-semibold mb-2">Voter Portal</span>
+        <h3 class="fw-bold mb-1">Welcome, Voter <span class="font-monospace text-primary">{{ voter_id }}</span></h3>
+        <p class="text-muted small mb-0">Online Voting Session Active</p>
+      </div>
+
+      <div>
+        {% if has_voted %}
+          <span class="badge badge-voted fs-6 py-2 px-3">
+            ✓ Status: Already Voted
+          </span>
+        {% else %}
+          <span class="badge bg-warning bg-opacity-25 text-dark border border-warning fs-6 py-2 px-3">
+            ⏳ Status: Eligible to Vote
+          </span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if not has_voted %}
+    <!-- Eligible to Vote State -->
+    <div class="custom-card p-4 p-md-5 mb-4 border-primary border-opacity-25">
+      <div class="text-center mb-4">
+        <div class="p-3 bg-primary bg-opacity-10 text-primary d-inline-flex rounded-circle mb-3 fs-2">
+          🗳️
+        </div>
+        <h4 class="fw-bold mb-2">Your Ballot is Ready</h4>
+        <p class="text-muted small mx-auto" style="max-width: 500px;">
+          You are authenticated and registered to vote in the current election. Please proceed to the ballot to review candidates and cast your vote.
+        </p>
+      </div>
+
+      <div class="bg-light p-3 rounded-3 mb-4 small text-muted border">
+        <div class="fw-bold text-dark mb-2">Voting Guidelines:</div>
+        <ul class="mb-0 ps-3">
+          <li>Select exactly <strong>one</strong> candidate or party on the ballot.</li>
+          <li>A confirmation screen will allow you to review your selection before final submission.</li>
+          <li>Once submitted, your vote is recorded atomically and <strong>cannot be reversed or re-cast</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="text-center">
+        <a href="{{ url_for('voter_candidates') }}" class="btn btn-primary btn-lg px-5 fw-semibold shadow-sm">
+          Proceed to Candidate Ballot →
+        </a>
+      </div>
+    </div>
+  {% else %}
+    <!-- Already Voted State -->
+    <div class="custom-card p-4 p-md-5 mb-4 border-success border-opacity-25 bg-success bg-opacity-10">
+      <div class="text-center mb-3">
+        <div class="p-3 bg-success bg-opacity-25 text-success d-inline-flex rounded-circle mb-3 fs-2">
+          ✓
+        </div>
+        <h4 class="fw-bold text-success mb-2">Vote Recorded Successfully</h4>
+        <p class="text-muted small mx-auto" style="max-width: 540px;">
+          Thank you for exercising your democratic franchise! Your vote has been safely stored in the election database.
+        </p>
+      </div>
+
+      <div class="card p-3 bg-white border-0 shadow-sm mx-auto mb-4" style="max-width: 500px;">
+        <div class="d-flex justify-content-between py-2 border-bottom small">
+          <span class="text-muted">Voter ID:</span>
+          <span class="font-monospace fw-bold">{{ voter_id }}</span>
+        </div>
+        <div class="d-flex justify-content-between py-2 border-bottom small">
+          <span class="text-muted">Voting Status:</span>
+          <span class="text-success fw-bold">✓ Voted (Locked)</span>
+        </div>
+        <div class="d-flex justify-content-between py-2 small">
+          <span class="text-muted">Double Voting Safeguard:</span>
+          <span class="text-secondary">Enforced (1 ballot maximum)</span>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <a href="{{ url_for('logout') }}" class="btn btn-outline-dark px-4 fw-semibold">
+          Safe Logout
+        </a>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- Quick Info Footer -->
+  <div class="custom-card p-3 text-muted small text-center">
+    Election integrity is audited automatically. If you have any inquiries, please contact your Election Administrator.
+  </div>
+
+</div>
+{% endblock %}

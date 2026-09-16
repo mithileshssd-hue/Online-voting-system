@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Confirm Vote - Online Voting System{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="max-width: 580px;">
+  <div class="custom-card p-4 p-md-5 shadow-sm text-center">
+    
+    <div class="bg-primary bg-opacity-10 text-primary d-inline-flex p-3 rounded-circle mb-3 fs-3">
+      🗳️
+    </div>
+
+    <h3 class="fw-bold mb-2">Review Your Ballot Choice</h3>
+    <p class="text-muted small mb-4">
+      Please review your selection carefully before final submission.
+    </p>
+
+    <div class="card p-3 bg-light border text-start mb-4">
+      <div class="d-flex justify-content-between py-2 border-bottom small">
+        <span class="text-muted">Voter ID:</span>
+        <span class="font-monospace fw-bold">{{ voter_id }}</span>
+      </div>
+      <div class="d-flex justify-content-between py-2 small">
+        <span class="text-muted">Selected Candidate:</span>
+        <span class="text-primary fw-bold fs-6">{{ candidate or 'Not Selected' }}</span>
+      </div>
+    </div>
+
+    <div class="alert alert-warning border-warning border-opacity-50 small mb-4 text-start">
+      <strong>⚠️ Warning:</strong> Once confirmed, your vote is written to the SQLite database and your voter status is marked as voted. You cannot vote again.
+    </div>
+
+    <div class="d-flex justify-content-between gap-3">
+      <a href="{{ url_for('voter_candidates') }}" class="btn btn-outline-secondary px-4">
+        Cancel / Change
+      </a>
+      <button id="confirmFinalVoteBtn" type="button" class="btn btn-success fw-semibold px-4">
+        Confirm &amp; Submit Vote ✓
+      </button>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
