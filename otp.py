@@ -19,8 +19,7 @@ and attempt limits."
 
 import random
 import time
-import tkinter as tk
-from tkinter import messagebox
+
 
 
 # ── Configuration Constants ────────────────────────────────────────────────────
@@ -99,7 +98,7 @@ def generate_otp() -> OTPRecord:
 
 
 # ── OTP Verification Window ───────────────────────────────────────────────────
-def open_otp_window(root: tk.Tk, user_id: str, otp_record: OTPRecord, success_function) -> None:
+def open_otp_window(root, user_id: str, otp_record: OTPRecord, success_function) -> None:
     """
     Opens a modal Toplevel window where the voter must enter the OTP.
 
@@ -116,6 +115,14 @@ def open_otp_window(root: tk.Tk, user_id: str, otp_record: OTPRecord, success_fu
         success_function (callable): Callback function invoked on verification success:
                                      success_function(root, user_id)
     """
+    try:
+        import tkinter as tk
+        from tkinter import messagebox
+    except ImportError as exc:
+        raise ImportError(
+            "Tkinter is required to open the desktop OTP window, but is not installed in this environment."
+        ) from exc
+
     clean_user_id = str(user_id).strip().upper()
 
     otp_win = tk.Toplevel(root)
@@ -123,6 +130,7 @@ def open_otp_window(root: tk.Tk, user_id: str, otp_record: OTPRecord, success_fu
     otp_win.geometry("400x420")
     otp_win.resizable(False, False)
     otp_win.config(bg=BG_COLOR)
+
 
     # Modal window: lock interaction to this popup until closed
     otp_win.grab_set()
